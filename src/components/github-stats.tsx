@@ -32,13 +32,19 @@ export default function GitHubStats() {
   useEffect(() => {
     async function fetchGitHubData() {
       try {
-        const res = await fetch(`/api/github?username=${username}`);
+        const [userRes, reposRes, eventsRes] = await Promise.all([
+          fetch(`https://api.github.com/users/${username}`),
+          fetch(`https://api.github.com/users/${username}/repos?sort=updated&per_page=100`),
+          fetch(`https://api.github.com/users/${username}/events`)
+        ]);
 
-        if (!res.ok) {
-          throw new Error("Failed to fetch from API");
+        if (!userRes.ok) {
+          throw new Error("Failed to fetch from GitHub API");
         }
 
-        const { userData, reposData, eventsData } = await res.json();
+        const userData = await userRes.json();
+        const reposData = await reposRes.json();
+        const eventsData = await eventsRes.json();
 
         // Calculate Languages
         const langMap: LangStats = {};
