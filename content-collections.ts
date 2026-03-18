@@ -28,7 +28,21 @@ const posts = defineCollection({
     },
 });
 
+const postsMeta = defineCollection({
+    name: "postsMeta",
+    directory: "content",
+    include: "**/*.mdx",
+    schema: z.object({
+        title: z.string(),
+        publishedAt: z.string(),
+        updatedAt: z.string().optional(),
+        author: z.string().optional(),
+        summary: z.string(),
+        image: z.string().optional(),
+    }),
+});
+
 export default defineConfig({
-    collections: [posts],
+    collections: [posts, postsMeta],
 });
 
