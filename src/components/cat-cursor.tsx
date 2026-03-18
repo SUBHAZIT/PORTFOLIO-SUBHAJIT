@@ -9,7 +9,7 @@ export function CatCursor() {
   const [isDead, setIsDead] = useState(false);
   const [flip, setFlip] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
-  const reqRef = useRef<number>();
+  const reqRef = useRef<number | undefined>(undefined);
 
   useEffect(() => {
     // Set initial position to center of screen to start
